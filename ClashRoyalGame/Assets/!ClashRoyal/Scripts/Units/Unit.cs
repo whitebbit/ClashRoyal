@@ -1,5 +1,4 @@
-﻿using System;
-using _3._Scripts.FSM.Base;
+﻿using _ClashRoyal.Scripts.Units.Enums;
 using _ClashRoyal.Scripts.Units.FSM;
 using UnityEngine;
 
@@ -9,10 +8,13 @@ namespace _ClashRoyal.Scripts.Units
     {
         #region FIELDS SERIALIZED
 
+        [SerializeField] private TeamType teamType;
+        
         #endregion
 
         #region FIELDS
 
+        public TeamType TeamType => teamType;
         protected abstract UnitFsm UnitFsm { get; }
 
         #endregion

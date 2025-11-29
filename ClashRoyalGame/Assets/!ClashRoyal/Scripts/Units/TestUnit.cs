@@ -6,7 +6,6 @@ namespace _ClashRoyal.Scripts.Units
     public class TestUnit : Unit
     {
         [SerializeField] private TestUnitFsm fsm;
-
         protected override UnitFsm UnitFsm => fsm;
     }
 }

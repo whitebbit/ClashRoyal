@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c08996f1adbe4f80bcded801b5bb7d72, type: 3}
   m_Name: _MovementState
   m_EditorClassIdentifier: 
-  stoppingDistance: 1
+  stoppingDistance: 0.1

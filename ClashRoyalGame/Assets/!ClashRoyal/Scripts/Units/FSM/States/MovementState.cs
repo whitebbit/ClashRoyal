@@ -1,6 +1,7 @@
 ﻿using System;
 using _3._Scripts.FSM.Base;
 using _ClashRoyal.Scripts.FSM.Base;
+using _ClashRoyal.Scripts.Maps;
 using _ClashRoyal.Scripts.Units.FSM.Interfaces;
 using UnityEngine;
 
@@ -23,13 +24,12 @@ namespace _ClashRoyal.Scripts.Units.FSM.States
 
         public override void OnEnter()
         {
-            _destination = Unit.transform.position + Unit.transform.forward * 2.5f;
+            _destination = Map.Instance.GetNearestEnemyTower(Unit).transform.position;
             _movable.MoveTo(_destination);
         }
 
         public override void Update()
         {
-            Debug.Log((Unit.transform.position - _destination).magnitude <= stoppingDistance);
             if (OnPoint) _movable.Stop();
         }
 
