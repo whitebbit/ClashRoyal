@@ -1,48 +1,52 @@
 ﻿using System;
+using _3._Scripts.FSM.Base;
 using _ClashRoyal.Scripts.Units.FSM;
 using UnityEngine;
 
 namespace _ClashRoyal.Scripts.Units
 {
-    public class Unit : MonoBehaviour
+    public abstract class Unit : MonoBehaviour
     {
         #region FIELDS SERIALIZED
-
-        [SerializeField] private UnitState defaultState;
-        [SerializeField] private UnitState chaseState;
-        [SerializeField] private UnitState attackState;
 
         #endregion
 
         #region FIELDS
 
-        private UnitState _defaultState;
-        private UnitState _chaseState;
-        private UnitState _attackState;
-
-        private UnitState _currentState;
+        protected abstract UnitFsm UnitFsm { get; }
 
         #endregion
 
         #region UNITY FUNCTIONS
 
-        private void Awake()
+        private void Start()
         {
-            _defaultState = Instantiate(defaultState);
-            _chaseState = Instantiate(chaseState);
-            _attackState = Instantiate(attackState);
-
-            _currentState = defaultState;
+            InitializeFsm();
         }
 
         private void Update()
         {
-            _currentState.OnUpdate();
+            UnitFsm?.FsmHandler?.StateMachine?.Update();
+        }
+
+        private void FixedUpdate()
+        {
+            UnitFsm?.FsmHandler?.StateMachine?.FixedUpdate();
         }
 
         #endregion
 
         #region METHODS
+
+        protected virtual void InitializeFsm()
+        {
+            UnitFsm.Initialize(this);
+            SubscribeToStates();
+        }
+
+        protected virtual void SubscribeToStates()
+        {
+        }
 
         #endregion
     }
