@@ -36,6 +36,7 @@ namespace _ClashRoyal.Scripts.Units.Base
 
         private void Start()
         {
+            Health.OnDying += OnDying;
             InitializeFsm();
         }
 
@@ -53,6 +54,11 @@ namespace _ClashRoyal.Scripts.Units.Base
 
         #region METHODS
 
+        private void OnDying()
+        {
+            Destroy(gameObject);
+        }
+        
         protected virtual void InitializeFsm()
         {
             UnitFsm.Initialize(this);
@@ -66,7 +72,6 @@ namespace _ClashRoyal.Scripts.Units.Base
         public void ApplyDamage(float damage)
         {
             Health.HealthPoints -= damage;
-            Debug.Log($"{gameObject.name}: {Health.HealthPoints}");
         }
 
         #endregion
