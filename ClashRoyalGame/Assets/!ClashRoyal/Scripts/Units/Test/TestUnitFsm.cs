@@ -90,7 +90,13 @@ namespace _ClashRoyal.Scripts.Units.Test
             };
 
             movementState.TargetProvider = () =>
-                HasTarget ? _enemy.transform.position : _map.GetNearestEnemyTower(Unit).transform.position;
+            {
+                var target = HasTarget ? _enemy : _map.GetNearestEnemyTower(Unit);
+                var direction = (target.transform.position - Unit.transform.position).normalized;
+                var enemyRadius = target.Parameters.BodyRadius;
+                var targetPos = target.transform.position - direction * enemyRadius;
+                return targetPos;
+            };
         }
 
         private void InitializeAttackState()
