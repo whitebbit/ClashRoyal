@@ -1,7 +1,7 @@
 ﻿using System;
 using _3._Scripts.FSM.Interfaces;
 using _ClashRoyal.Scripts.Units;
-using _ClashRoyal.Scripts.Units.FSM.Interfaces;
+using _ClashRoyal.Scripts.Units.Base;
 using UnityEngine;
 
 namespace _ClashRoyal.Scripts.FSM.Base
@@ -13,7 +13,7 @@ namespace _ClashRoyal.Scripts.FSM.Base
         public event Action OnEnterAction;
         public event Action OnExitAction;
 
-        public void Construct(Unit unit)
+        public virtual void Construct(Unit unit)
         {
             Unit = unit;
         }

@@ -2,12 +2,11 @@
 using _ClashRoyal.Scripts.Units.Base.FSM;
 using UnityEngine;
 
-namespace _ClashRoyal.Scripts.Units.Towers
+namespace _ClashRoyal.Scripts.Units.Test
 {
-    public class TowerUnit : Unit
+    public class TestUnit : Unit
     {
-        [SerializeField] private TowerUnitFsm fsm;
-
+        [SerializeField] private TestUnitFsm fsm;
         protected override UnitFsm UnitFsm => fsm;
     }
 }

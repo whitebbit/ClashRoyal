@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using _ClashRoyal.Scripts.Extensions;
 using _ClashRoyal.Scripts.Units;
-using _ClashRoyal.Scripts.Units.Enums;
+using _ClashRoyal.Scripts.Units.Base;
 using _ClashRoyal.Scripts.Units.Towers;
 using UnityEngine;
 

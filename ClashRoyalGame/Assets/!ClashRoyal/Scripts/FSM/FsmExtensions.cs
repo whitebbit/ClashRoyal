@@ -1,7 +1,7 @@
 ﻿using _3._Scripts.FSM.Base;
 using _ClashRoyal.Scripts.FSM.Base;
 using _ClashRoyal.Scripts.Units;
-using _ClashRoyal.Scripts.Units.FSM.Interfaces;
+using _ClashRoyal.Scripts.Units.Base;
 using UnityEngine;
 
 namespace _ClashRoyal.Scripts.FSM
