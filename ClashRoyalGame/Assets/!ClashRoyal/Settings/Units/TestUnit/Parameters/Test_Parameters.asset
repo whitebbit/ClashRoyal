@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23146dc26b4e413fa3351cb3c3d971d4, type: 3}
   m_Name: Test_Parameters
   m_EditorClassIdentifier: 
+  bodyRadius: 0.5
   configs:
   - {fileID: 11400000, guid: 9e0260c6cebf09c46ba4eacb2b50f05d, type: 2}
   - {fileID: 11400000, guid: 0f5b8d540ce213842b597ec13501b060, type: 2}

@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23146dc26b4e413fa3351cb3c3d971d4, type: 3}
   m_Name: Tower_Parameters
   m_EditorClassIdentifier: 
+  bodyRadius: 2.5
   configs:
   - {fileID: 11400000, guid: a654f1d3f03a1fe459b8493dac4ef4a4, type: 2}
   - {fileID: 11400000, guid: 9fa5425e6862340458028265d6c348ec, type: 2}

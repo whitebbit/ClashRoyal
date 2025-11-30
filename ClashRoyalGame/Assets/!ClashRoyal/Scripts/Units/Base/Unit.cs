@@ -1,13 +1,14 @@
 ﻿using System;
 using _ClashRoyal.Scripts.Units.Base.Enums;
 using _ClashRoyal.Scripts.Units.Base.FSM;
+using _ClashRoyal.Scripts.Units.Base.Interfaces;
 using _ClashRoyal.Scripts.Units.Base.Scriptables;
 using _ClashRoyal.Scripts.Units.Base.Scriptables.Configs;
 using UnityEngine;
 
 namespace _ClashRoyal.Scripts.Units.Base
 {
-    public abstract class Unit : MonoBehaviour
+    public abstract class Unit : MonoBehaviour, IDamageable
     {
         #region FIELDS SERIALIZED
 
@@ -62,6 +63,19 @@ namespace _ClashRoyal.Scripts.Units.Base
         {
         }
 
+        public void ApplyDamage(float damage)
+        {
+            Health.HealthPoints -= damage;
+            Debug.Log($"{gameObject.name}: {Health.HealthPoints}");
+        }
+
         #endregion
+
+        private void OnDrawGizmos()
+        {
+            return;
+            UnitFsm?.Initialize(this);
+            UnitFsm?.OnDrawGizmos();
+        }
     }
 }

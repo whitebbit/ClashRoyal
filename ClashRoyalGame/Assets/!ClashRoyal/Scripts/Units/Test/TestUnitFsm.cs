@@ -8,6 +8,7 @@ using _ClashRoyal.Scripts.Units.Base.FSM;
 using _ClashRoyal.Scripts.Units.Base.FSM.Movements;
 using _ClashRoyal.Scripts.Units.Base.FSM.States;
 using _ClashRoyal.Scripts.Units.Base.Scriptables.Configs;
+using UnityEditor;
 using UnityEngine;
 
 namespace _ClashRoyal.Scripts.Units.Test
@@ -20,20 +21,33 @@ namespace _ClashRoyal.Scripts.Units.Test
 
         private bool HasTarget => _enemy && _enemy.Health.HealthPoints > 0;
 
-        private bool TargetInAttackRadius => HasTarget &&
-                                             (_enemy.transform.position - Unit.transform.position).magnitude <=
-                                             Unit.Parameters.GetConfig<UnitAttackConfig>().AttackRadius;
+        private bool TargetInAttackRadius
+        {
+            get
+            {
+                if (!HasTarget) return false;
 
+                var attackRadius = Unit.Parameters.GetConfig<UnitAttackConfig>().AttackRadius;
+                var collisionOffset = _enemy.Parameters.BodyRadius;
+
+                var sqrDistance = (_enemy.transform.position - Unit.transform.position).sqrMagnitude;
+                var sqrAttackRange = (attackRadius + collisionOffset) * (attackRadius + collisionOffset);
+
+                return sqrDistance <= sqrAttackRange;
+            }
+        }
+
+        private Map _map;
         private Unit _enemy;
         private UnitSphereOverlapDetector _detector;
 
         public override void Initialize(Unit unit)
         {
+            _map = Map.Instance;
+
             base.Initialize(unit);
 
-            _detector = unit.GetComponent<UnitSphereOverlapDetector>();
-            _detector.SetRadius(Unit.Parameters.GetConfig<UnitAttackConfig>().AttackRadius);
-            _detector.OnFound += OnFound;
+            InitializeDetector(unit);
         }
 
         protected override void SetFsmTransition()
@@ -42,6 +56,7 @@ namespace _ClashRoyal.Scripts.Units.Test
             attackState = attackState.CreateInstance(Unit);
 
             InitializeMovementState();
+            InitializeAttackState();
 
             FsmHandler.AddTransition(movementState, new FuncPredicate(() => !TargetInAttackRadius));
             FsmHandler.AddTransition(movementState, attackState, new FuncPredicate(() => TargetInAttackRadius));
@@ -49,7 +64,6 @@ namespace _ClashRoyal.Scripts.Units.Test
 
         private void OnFound(Unit unit)
         {
-            Debug.Log($"{Unit.name}: Unit {unit?.name} found");
             if (!unit) return;
 
             if (unit.TeamType == Unit.TeamType) return;
@@ -61,6 +75,13 @@ namespace _ClashRoyal.Scripts.Units.Test
             _enemy = unit;
         }
 
+        private void InitializeDetector(Unit unit)
+        {
+            _detector = unit.GetComponent<UnitSphereOverlapDetector>();
+            _detector.SetRadius(Unit.Parameters.GetConfig<UnitAttackConfig>().DetectRadius);
+            _detector.OnFound += OnFound;
+        }
+
         private void InitializeMovementState()
         {
             movementState.Movable = new NavMeshMovement(Unit)
@@ -69,7 +90,27 @@ namespace _ClashRoyal.Scripts.Units.Test
             };
 
             movementState.TargetProvider = () =>
-                HasTarget ? _enemy.transform.position : Map.Instance.GetNearestEnemyTower(Unit).transform.position;
+                HasTarget ? _enemy.transform.position : _map.GetNearestEnemyTower(Unit).transform.position;
         }
+
+        private void InitializeAttackState()
+        {
+            attackState.TargetProvider = () => HasTarget ? _enemy : null;
+        }
+
+#if UNITY_EDITOR
+
+        public override void OnDrawGizmos()
+        {
+            var attackConfig = Unit.Parameters.GetConfig<UnitAttackConfig>();
+            if (!attackConfig) return;
+            
+            Handles.color = Color.red;
+            Handles.DrawWireDisc(Unit.transform.position, Vector3.up, attackConfig.AttackRadius);
+            
+            Handles.color = Color.yellow;
+            Handles.DrawWireDisc(Unit.transform.position, Vector3.up, attackConfig.DetectRadius);
+        }
+#endif
     }
 }

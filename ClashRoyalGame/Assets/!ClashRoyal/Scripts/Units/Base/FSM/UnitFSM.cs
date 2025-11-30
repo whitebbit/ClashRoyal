@@ -17,5 +17,13 @@ namespace _ClashRoyal.Scripts.Units.Base.FSM
         protected abstract void SetFsmTransition();
 
         public virtual T GetState<T>() => default;
+        
+#if UNITY_EDITOR
+
+        public virtual void OnDrawGizmos()
+        {
+            
+        }
+#endif
     }
 }
