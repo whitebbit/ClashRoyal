@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Warrior_AttackConfig
   m_EditorClassIdentifier: 
   damage: 10
-  detectRadius: 5
-  attackRadius: 2.5
+  detectRadius: 3
+  attackRadius: 1.25
   attackRate: 1
   canAttackTargets: 5

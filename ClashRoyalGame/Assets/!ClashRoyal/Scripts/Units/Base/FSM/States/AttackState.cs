@@ -24,7 +24,6 @@ namespace _ClashRoyal.Scripts.Units.Base.FSM.States
         public override void Update()
         {
             var target = TargetProvider?.Invoke();
-
             if (!target) return;
 
             Unit.transform.LookAt(target.transform.position);
@@ -43,11 +42,13 @@ namespace _ClashRoyal.Scripts.Units.Base.FSM.States
             var attackConfig = Unit.Parameters.GetConfig<UnitAttackConfig>();
             
             if (attackStrategy == null)
-            {
+            {            Debug.Log(target);
+
                 target.ApplyDamage(attackConfig.Damage);
                 return;
             }
-            
+            Debug.Log(target);
+
             attackStrategy.Execute(Unit, target, attackConfig.Damage);
         }
     }

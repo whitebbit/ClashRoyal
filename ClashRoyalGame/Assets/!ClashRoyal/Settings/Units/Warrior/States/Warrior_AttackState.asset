@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1aa41e8077f2491592463e01a6a420ad, type: 3}
   m_Name: Warrior_AttackState
   m_EditorClassIdentifier: 
-  attackStrategy: {fileID: 11400000, guid: 765b561b66f8418478b17204da3ddbc9, type: 2}
+  attackStrategy: {fileID: 11400000, guid: a35bda3a33a1c584793fb8552484868d, type: 2}

@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 861d7061682249e9883e31154308795c, type: 3}
   m_Name: Giant_AttackConfig
   m_EditorClassIdentifier: 
-  damage: 50
-  detectRadius: 5
-  attackRadius: 5
+  damage: 100
+  detectRadius: 2.5
+  attackRadius: 2.5
   attackRate: 2
   canAttackTargets: 4

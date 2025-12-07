@@ -144,9 +144,11 @@ GameObject:
   m_Component:
   - component: {fileID: 2284419650579774257}
   - component: {fileID: 40230783707166909}
+  - component: {fileID: 7679234678337473850}
   - component: {fileID: 4848534270733528144}
   - component: {fileID: 9220376305917241205}
   - component: {fileID: 90180663814311170}
+  - component: {fileID: 5621424400908279552}
   m_Layer: 7
   m_Name: Archer
   m_TagString: Untagged
@@ -189,6 +191,19 @@ MonoBehaviour:
     movementState: {fileID: 11400000, guid: 48760928cd028a74c9895efbc30d8658, type: 2}
     attackState: {fileID: 11400000, guid: f8688c1014899eb43bbbf8cb8df99550, type: 2}
   unitType: 0
+--- !u!114 &7679234678337473850
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2330577238520010365}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a2696de470d4bf4ae6e5d91d93ab89b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animatorConfig: {fileID: 11400000, guid: 95c5d7824343b0247b6174b3b6bc943d, type: 2}
 --- !u!114 &4848534270733528144
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -251,7 +266,7 @@ CapsuleCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
@@ -259,6 +274,27 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 1, z: 0}
+--- !u!95 &5621424400908279552
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2330577238520010365}
+  m_Enabled: 1
+  m_Avatar: {fileID: 9000000, guid: f3a9d63130d316f4fa89c717a14a4ec8, type: 3}
+  m_Controller: {fileID: 9100000, guid: a2d50fd4b63864546a3c7a954d8aff1c, type: 2}
+  m_CullingMode: 1
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &3839491210761626494
 GameObject:
   m_ObjectHideFlags: 0
@@ -1640,7 +1676,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: Bloom
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 7160668322243415021, guid: a87f651b28f3d234db143fa6b87bea0c, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

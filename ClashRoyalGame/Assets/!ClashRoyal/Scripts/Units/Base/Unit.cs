@@ -28,6 +28,7 @@ namespace _ClashRoyal.Scripts.Units.Base
         public UnitParameters Parameters => parameters;
         public UnitHealth Health { get; private set; }
         public abstract UnitType UnitType { get; }
+        public UnitAnimator Animator { get; private set; }
 
         protected abstract UnitFsm UnitFsm { get; }
 
@@ -38,6 +39,7 @@ namespace _ClashRoyal.Scripts.Units.Base
         private void Awake()
         {
             Health = new UnitHealth(Parameters.GetConfig<UnitHealthConfig>().MaxHealth);
+            Animator = GetComponent<UnitAnimator>();
         }
 
         private void Start()

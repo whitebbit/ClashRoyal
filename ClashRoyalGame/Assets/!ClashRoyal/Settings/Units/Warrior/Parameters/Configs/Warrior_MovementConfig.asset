@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: Warrior_MovementConfig
   m_EditorClassIdentifier: 
   speed: 5
-  chaseRadius: 7.5
+  chaseRadius: 4

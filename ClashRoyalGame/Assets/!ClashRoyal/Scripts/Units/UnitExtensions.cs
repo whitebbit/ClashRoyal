@@ -68,12 +68,12 @@ namespace _ClashRoyal.Scripts.Units
             // Радиус атаки измеряется от центра атакующего юнита
             // Чтобы враг был в радиусе атаки, расстояние от центра атакующего до края тела врага должно быть <= attackRadius
             // То есть: расстояние между центрами <= attackRadius + enemyBodyRadius
-            
-            // Для подхода используем 70% от максимальной дистанции атаки
-            // Это гарантирует, что враг будет внутри радиуса атаки с запасом
-            // Как в Clash Royale - юниты подходят достаточно близко для надежной атаки
             var maxAttackDistance = attackRadius + enemyBodyRadius;
-            var approachDistance = maxAttackDistance * 0.7f;
+            
+            // Для подхода используем 95% от максимальной дистанции атаки
+            // Это гарантирует, что враг будет внутри радиуса атаки, но с небольшим запасом для предотвращения перебегания
+            // Используем 95% вместо 70%, чтобы юнит подходил ближе к максимальной дистанции атаки
+            var approachDistance = maxAttackDistance * 0.95f;
             
             // Но не ближе минимального расстояния
             return Mathf.Max(approachDistance, minDistance);
@@ -106,8 +106,18 @@ namespace _ClashRoyal.Scripts.Units
 
             var attackerBodyRadius = attacker.Parameters.BodyRadius;
             var enemyBodyRadius = target.Parameters.BodyRadius;
+            
             // Используем оптимальную дистанцию для подхода, чтобы гарантировать попадание в радиус атаки
             var targetDistance = GetOptimalApproachDistance(attackRadius, attackerBodyRadius, enemyBodyRadius);
+            
+            // Если юнит уже находится достаточно близко к цели (в пределах 110% от целевой дистанции),
+            // не обновляем позицию, чтобы избежать постоянного движения
+            var effectiveAttackDistance = GetEffectiveAttackDistance(attackRadius, attackerBodyRadius, enemyBodyRadius);
+            if (currentDistance <= effectiveAttackDistance * 1.1f)
+            {
+                // Возвращаем текущую позицию, чтобы не двигаться
+                return attacker.transform.position;
+            }
             
             // Вычисляем позицию: от центра врага отступаем на targetDistance
             var targetPosition = target.transform.position - direction * targetDistance;

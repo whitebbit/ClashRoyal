@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 97a39b5d0029496ca7d050b7acf5a83c, type: 3}
   m_Name: Archer_MovementConfig
   m_EditorClassIdentifier: 
-  speed: 10
-  chaseRadius: 17.5
+  speed: 1
+  chaseRadius: 6

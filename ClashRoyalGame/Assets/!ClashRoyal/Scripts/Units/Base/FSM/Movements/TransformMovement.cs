@@ -40,7 +40,9 @@ namespace _ClashRoyal.Scripts.Units.Base.FSM.Movements
             var direction = (_targetPosition - _transform.position);
             var distance = direction.magnitude;
 
-            if (distance < 0.1f)
+            // Увеличиваем порог остановки для более стабильной работы
+            // Это предотвращает постоянное движение при достижении цели
+            if (distance < 0.2f)
             {
                 _isMoving = false;
                 return;

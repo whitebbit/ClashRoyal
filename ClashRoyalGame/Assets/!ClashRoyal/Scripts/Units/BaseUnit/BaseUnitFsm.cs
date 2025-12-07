@@ -36,7 +36,8 @@ namespace _ClashRoyal.Scripts.Units.BaseUnit
                     attackRadius, attackerBodyRadius, enemyBodyRadius);
 
                 var sqrDistance = (_enemy.transform.position - Unit.transform.position).sqrMagnitude;
-                var sqrAttackRange = effectiveAttackDistance * effectiveAttackDistance;
+                // Добавляем небольшой допуск (5%) чтобы предотвратить колебания между состояниями
+                var sqrAttackRange = effectiveAttackDistance * effectiveAttackDistance * 1.05f;
 
                 return sqrDistance <= sqrAttackRange;
             }
@@ -127,6 +128,9 @@ namespace _ClashRoyal.Scripts.Units.BaseUnit
                 var target = TargetInChaseRadius ? _enemy : _map.GetNearestEnemyTower(Unit);
                 return !target ? Unit.transform.position : target.GetTargetPosition(Unit);
             };
+            
+            // Функция для проверки, нужно ли остановиться (когда цель в радиусе атаки)
+            movementState.ShouldStopMoving = () => TargetInAttackRadius;
         }
 
         private void InitializeAttackState()

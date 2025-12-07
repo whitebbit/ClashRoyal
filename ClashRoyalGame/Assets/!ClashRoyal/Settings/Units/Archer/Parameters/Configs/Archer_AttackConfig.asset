@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Archer_AttackConfig
   m_EditorClassIdentifier: 
   damage: 5
-  detectRadius: 20
-  attackRadius: 15
+  detectRadius: 5
+  attackRadius: 5
   attackRate: 0.75
   canAttackTargets: -1
