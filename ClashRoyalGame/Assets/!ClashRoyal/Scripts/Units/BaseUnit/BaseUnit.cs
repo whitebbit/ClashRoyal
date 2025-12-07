@@ -11,11 +11,6 @@ namespace _ClashRoyal.Scripts.Units.BaseUnit
         [Tooltip("Конечный автомат состояний для базового юнита")]
         [SerializeField] private BaseUnitFsm fsm;
         
-        [Header("Unit Type")]
-        [Tooltip("Тип юнита (наземный, воздушный, башня)")]
-        [SerializeField] private UnitType unitType = UnitType.Ground;
-        
         protected override UnitFsm UnitFsm => fsm;
-        public override UnitType UnitType => unitType;
     }
 }

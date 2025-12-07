@@ -19,35 +19,16 @@ namespace _ClashRoyal.Scripts.Units.BaseUnit
         [SerializeField] private MovementState movementState;
         [SerializeField] private AttackState attackState;
 
-        private bool HasTarget => _enemy && _enemy.Health.HealthPoints > 0;
+        private Map _map;
+        private Unit _enemy;
+        private UnitSphereOverlapDetector _detector;
 
-        private bool TargetInAttackRadius
+        // Проверяет, находится ли враг в радиусе преследования
+        private bool EnemyInChaseRadius
         {
             get
             {
-                if (!HasTarget) return false;
-
-                var attackRadius = Unit.Parameters.GetConfig<UnitAttackConfig>().AttackRadius;
-                var attackerBodyRadius = Unit.Parameters.BodyRadius;
-                var enemyBodyRadius = _enemy.Parameters.BodyRadius;
-                
-                // Используем универсальный метод для расчета эффективной дистанции атаки
-                var effectiveAttackDistance = UnitExtensions.GetEffectiveAttackDistance(
-                    attackRadius, attackerBodyRadius, enemyBodyRadius);
-
-                var sqrDistance = (_enemy.transform.position - Unit.transform.position).sqrMagnitude;
-                // Добавляем небольшой допуск (5%) чтобы предотвратить колебания между состояниями
-                var sqrAttackRange = effectiveAttackDistance * effectiveAttackDistance * 1.05f;
-
-                return sqrDistance <= sqrAttackRange;
-            }
-        }
-
-        private bool TargetInChaseRadius
-        {
-            get
-            {
-                if (!HasTarget) return false;
+                if (!_enemy || _enemy.Health.HealthPoints <= 0) return false;
 
                 var chaseRadius = Unit.Parameters.GetConfig<UnitMovementConfig>().ChaseRadius;
                 var attackerBodyRadius = Unit.Parameters.BodyRadius;
@@ -61,9 +42,62 @@ namespace _ClashRoyal.Scripts.Units.BaseUnit
             }
         }
 
-        private Map _map;
-        private Unit _enemy;
-        private UnitSphereOverlapDetector _detector;
+        // Текущая цель для движения: враг в радиусе преследования или башня
+        private Unit CurrentMovementTarget
+        {
+            get
+            {
+                // Если враг в радиусе преследования, идем к нему
+                if (EnemyInChaseRadius) return _enemy;
+                
+                // Иначе идем к башне
+                var tower = _map?.GetNearestEnemyTower(Unit);
+                if (tower && tower.Health.HealthPoints > 0) return tower;
+                
+                return null;
+            }
+        }
+
+        // Текущая цель для атаки: враг в радиусе преследования или башня в радиусе атаки
+        private Unit CurrentAttackTarget
+        {
+            get
+            {
+                // Если враг в радиусе преследования, атакуем его
+                if (EnemyInChaseRadius) return _enemy;
+                
+                // Иначе проверяем башню
+                var tower = _map?.GetNearestEnemyTower(Unit);
+                if (tower && tower.Health.HealthPoints > 0) return tower;
+                
+                return null;
+            }
+        }
+
+        private bool HasTarget => CurrentAttackTarget != null;
+
+        private bool TargetInAttackRadius
+        {
+            get
+            {
+                var target = CurrentAttackTarget;
+                if (!target) return false;
+
+                var attackRadius = Unit.Parameters.GetConfig<UnitAttackConfig>().AttackRadius;
+                var attackerBodyRadius = Unit.Parameters.BodyRadius;
+                var enemyBodyRadius = target.Parameters.BodyRadius;
+                
+                // Используем универсальный метод для расчета эффективной дистанции атаки
+                var effectiveAttackDistance = UnitExtensions.GetEffectiveAttackDistance(
+                    attackRadius, attackerBodyRadius, enemyBodyRadius);
+
+                var sqrDistance = (target.transform.position - Unit.transform.position).sqrMagnitude;
+                // Добавляем небольшой допуск (5%) чтобы предотвратить колебания между состояниями
+                var sqrAttackRange = effectiveAttackDistance * effectiveAttackDistance * 1.05f;
+
+                return sqrDistance <= sqrAttackRange;
+            }
+        }
 
         public override void Initialize(Unit unit)
         {
@@ -96,8 +130,29 @@ namespace _ClashRoyal.Scripts.Units.BaseUnit
 
             if (_enemy == unit) return;
 
-            if (HasTarget) return;
+            // Проверяем, находится ли текущий враг в радиусе преследования
+            bool currentEnemyInChaseRadius = false;
+            if (_enemy && _enemy.Health.HealthPoints > 0)
+            {
+                var chaseRadius = Unit.Parameters.GetConfig<UnitMovementConfig>().ChaseRadius;
+                var attackerBodyRadius = Unit.Parameters.BodyRadius;
+                var enemyBodyRadius = _enemy.Parameters.BodyRadius;
+                var totalCollisionOffset = attackerBodyRadius + enemyBodyRadius;
+                var sqrDistance = (_enemy.transform.position - Unit.transform.position).sqrMagnitude;
+                var sqrChaseRange = (chaseRadius + totalCollisionOffset) * (chaseRadius + totalCollisionOffset);
+                currentEnemyInChaseRadius = sqrDistance <= sqrChaseRange;
+            }
 
+            // Если текущий враг не в радиусе преследования, очищаем его
+            if (_enemy && !currentEnemyInChaseRadius)
+            {
+                _enemy = null;
+            }
+
+            // Если уже есть враг-юнит в радиусе преследования, не меняем цель
+            if (_enemy && _enemy.Health.HealthPoints > 0) return;
+
+            // Устанавливаем нового врага
             _enemy = unit;
         }
 
@@ -125,7 +180,7 @@ namespace _ClashRoyal.Scripts.Units.BaseUnit
 
             movementState.TargetProvider = () =>
             {
-                var target = TargetInChaseRadius ? _enemy : _map.GetNearestEnemyTower(Unit);
+                var target = CurrentMovementTarget;
                 return !target ? Unit.transform.position : target.GetTargetPosition(Unit);
             };
             
@@ -135,7 +190,7 @@ namespace _ClashRoyal.Scripts.Units.BaseUnit
 
         private void InitializeAttackState()
         {
-            attackState.TargetProvider = () => HasTarget ? _enemy : null;
+            attackState.TargetProvider = () => CurrentAttackTarget;
         }
 
 #if UNITY_EDITOR

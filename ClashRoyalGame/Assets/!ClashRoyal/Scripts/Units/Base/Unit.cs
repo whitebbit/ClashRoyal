@@ -27,7 +27,6 @@ namespace _ClashRoyal.Scripts.Units.Base
         public TeamType TeamType => teamType;
         public UnitParameters Parameters => parameters;
         public UnitHealth Health { get; private set; }
-        public abstract UnitType UnitType { get; }
         public UnitAnimator Animator { get; private set; }
 
         protected abstract UnitFsm UnitFsm { get; }

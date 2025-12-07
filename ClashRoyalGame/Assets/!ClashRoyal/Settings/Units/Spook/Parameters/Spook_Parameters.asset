@@ -10,10 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 23146dc26b4e413fa3351cb3c3d971d4, type: 3}
-  m_Name: Tower_Parameters
+  m_Name: Spook_Parameters
   m_EditorClassIdentifier: 
-  unitType: 2
-  bodyRadius: 1
+  unitType: 1
+  bodyRadius: 0.5
   configs:
-  - {fileID: 11400000, guid: a654f1d3f03a1fe459b8493dac4ef4a4, type: 2}
-  - {fileID: 11400000, guid: 9fa5425e6862340458028265d6c348ec, type: 2}
+  - {fileID: 11400000, guid: 5200b16ff7d22e747a11bfb2a89866fe, type: 2}
+  - {fileID: 11400000, guid: 67bfcd2fa475f6d4cb4f6b430768350f, type: 2}
+  - {fileID: 11400000, guid: b40e841383b7d774f9c4a190c22003cd, type: 2}

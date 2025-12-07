@@ -9,11 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 23146dc26b4e413fa3351cb3c3d971d4, type: 3}
-  m_Name: Tower_Parameters
+  m_Script: {fileID: 11500000, guid: c08996f1adbe4f80bcded801b5bb7d72, type: 3}
+  m_Name: Spook_MovementState
   m_EditorClassIdentifier: 
-  unitType: 2
-  bodyRadius: 1
-  configs:
-  - {fileID: 11400000, guid: a654f1d3f03a1fe459b8493dac4ef4a4, type: 2}
-  - {fileID: 11400000, guid: 9fa5425e6862340458028265d6c348ec, type: 2}
+  movementStrategy: {fileID: 11400000, guid: e6b6b1267381cf64a98585910523dab5, type: 2}

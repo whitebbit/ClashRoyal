@@ -7,6 +7,7 @@ namespace _ClashRoyal.Scripts.Units.Base.FSM.Movements
     {
         private readonly Transform _transform;
         private float _speed;
+        private float _rotationSpeed = 720f; // Скорость поворота в градусах в секунду
 
         public float Speed
         {
@@ -16,6 +17,7 @@ namespace _ClashRoyal.Scripts.Units.Base.FSM.Movements
 
         private Vector3 _targetPosition;
         private bool _isMoving;
+        private const float StopThreshold = 0.1f; // Порог остановки
 
         public TransformMovement(Unit unit)
         {
@@ -40,21 +42,40 @@ namespace _ClashRoyal.Scripts.Units.Base.FSM.Movements
             var direction = (_targetPosition - _transform.position);
             var distance = direction.magnitude;
 
-            // Увеличиваем порог остановки для более стабильной работы
-            // Это предотвращает постоянное движение при достижении цели
-            if (distance < 0.2f)
+            // Проверяем, достигли ли мы цели
+            if (distance < StopThreshold)
             {
+                // Останавливаемся, но не устанавливаем точную позицию,
+                // чтобы избежать проблем с движущимися целями
                 _isMoving = false;
                 return;
             }
 
-            var moveDistance = _speed * Time.deltaTime;
-            if (moveDistance > distance)
+            // Нормализуем направление для поворота и движения
+            var normalizedDirection = direction.normalized;
+
+            // Поворачиваем объект к цели
+            if (normalizedDirection != Vector3.zero)
             {
-                moveDistance = distance;
+                var targetRotation = Quaternion.LookRotation(normalizedDirection);
+                _transform.rotation = Quaternion.RotateTowards(
+                    _transform.rotation, 
+                    targetRotation, 
+                    _rotationSpeed * Time.deltaTime);
             }
 
-            _transform.position += direction.normalized * moveDistance;
+            // Двигаемся к цели
+            var moveDistance = _speed * Time.deltaTime;
+            if (moveDistance >= distance)
+            {
+                // Если оставшееся расстояние меньше или равно расстоянию движения,
+                // перемещаемся точно к цели и останавливаемся
+                _transform.position = _targetPosition;
+                _isMoving = false;
+                return;
+            }
+
+            _transform.position += normalizedDirection * moveDistance;
         }
     }
 }

@@ -10,10 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 23146dc26b4e413fa3351cb3c3d971d4, type: 3}
-  m_Name: Tower_Parameters
+  m_Name: Dragon_Parameters
   m_EditorClassIdentifier: 
-  unitType: 2
-  bodyRadius: 1
+  unitType: 1
+  bodyRadius: 0.5
   configs:
-  - {fileID: 11400000, guid: a654f1d3f03a1fe459b8493dac4ef4a4, type: 2}
-  - {fileID: 11400000, guid: 9fa5425e6862340458028265d6c348ec, type: 2}
+  - {fileID: 11400000, guid: 1d551e742aaf479408b4c930ddf069d7, type: 2}
+  - {fileID: 11400000, guid: b79979faad98f8942ab5e777a8f6bee3, type: 2}
+  - {fileID: 11400000, guid: 391f6d0254e56ed40a7bc2f4228c11a7, type: 2}

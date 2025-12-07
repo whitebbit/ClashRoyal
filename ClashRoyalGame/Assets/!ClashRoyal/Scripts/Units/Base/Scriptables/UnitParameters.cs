@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using _ClashRoyal.Scripts.Units.Base.Enums;
 using UnityEngine;
 
 namespace _ClashRoyal.Scripts.Units.Base.Scriptables
@@ -8,6 +9,9 @@ namespace _ClashRoyal.Scripts.Units.Base.Scriptables
     [CreateAssetMenu(fileName = "_Parameters", menuName = "Configs/Unit/Parameters", order = 0)]
     public class UnitParameters : ScriptableObject
     {
+        [Header("Unit Type")]
+        [Tooltip("Тип юнита (наземный, воздушный, башня)")]
+        [SerializeField] private UnitType unitType = UnitType.Ground;
         [Header("Physical Properties")]
         [Tooltip("Радиус коллайдера/тела юнита (используется для физических расчетов)")]
         [SerializeField, Min(0.1f)] private float bodyRadius = 0.5f;
@@ -18,6 +22,7 @@ namespace _ClashRoyal.Scripts.Units.Base.Scriptables
         
         public float BodyRadius => bodyRadius;
 
+        public UnitType UnitType => unitType;
         private readonly Dictionary<Type, UnitConfig> _cache = new();
 
         public T GetConfig<T>() where T : UnitConfig

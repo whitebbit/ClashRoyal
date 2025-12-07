@@ -12,6 +12,5 @@ namespace _ClashRoyal.Scripts.Units.Towers
         [SerializeField] private TowerUnitFsm fsm;
 
         protected override UnitFsm UnitFsm => fsm;
-        public override UnitType UnitType => UnitType.Tower;
     }
 }

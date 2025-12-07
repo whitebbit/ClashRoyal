@@ -9,10 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6d975752f0206f242a356a505d0d3610, type: 3}
-  m_Name: Archer_AnimatorConfig
+  m_Script: {fileID: 11500000, guid: 97a39b5d0029496ca7d050b7acf5a83c, type: 3}
+  m_Name: Dragon_MovementConfig
   m_EditorClassIdentifier: 
-  attackTriggerName: Attack
-  deathTriggerName: Death
-  isMovingBoolName: IsMoving
-  speedFloatName: Speed
+  speed: 1.5
+  chaseRadius: 3

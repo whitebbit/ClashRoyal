@@ -110,15 +110,6 @@ namespace _ClashRoyal.Scripts.Units
             // Используем оптимальную дистанцию для подхода, чтобы гарантировать попадание в радиус атаки
             var targetDistance = GetOptimalApproachDistance(attackRadius, attackerBodyRadius, enemyBodyRadius);
             
-            // Если юнит уже находится достаточно близко к цели (в пределах 110% от целевой дистанции),
-            // не обновляем позицию, чтобы избежать постоянного движения
-            var effectiveAttackDistance = GetEffectiveAttackDistance(attackRadius, attackerBodyRadius, enemyBodyRadius);
-            if (currentDistance <= effectiveAttackDistance * 1.1f)
-            {
-                // Возвращаем текущую позицию, чтобы не двигаться
-                return attacker.transform.position;
-            }
-            
             // Вычисляем позицию: от центра врага отступаем на targetDistance
             var targetPosition = target.transform.position - direction * targetDistance;
             

@@ -9,10 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6d975752f0206f242a356a505d0d3610, type: 3}
-  m_Name: Giant_AnimatorConfig
+  m_Script: {fileID: 11500000, guid: c08996f1adbe4f80bcded801b5bb7d72, type: 3}
+  m_Name: Dragon_MovementState
   m_EditorClassIdentifier: 
-  attackTriggerName: Attack
-  deathTriggerName: Death
-  isMovingBoolName: IsMoving
-  speedFloatName: Speed
+  movementStrategy: {fileID: 11400000, guid: e6b6b1267381cf64a98585910523dab5, type: 2}
