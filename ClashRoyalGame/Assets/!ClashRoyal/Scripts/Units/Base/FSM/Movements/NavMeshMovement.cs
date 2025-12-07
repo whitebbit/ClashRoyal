@@ -1,5 +1,4 @@
 ﻿using _ClashRoyal.Scripts.Units.Base.FSM.Interfaces;
-using _ClashRoyal.Scripts.Units.Base.Scriptables.Configs;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -35,6 +34,10 @@ namespace _ClashRoyal.Scripts.Units.Base.FSM.Movements
         public void Stop()
         {
             _agent.isStopped = true;
+        }
+
+        public void Update()
+        {
         }
     }
 }

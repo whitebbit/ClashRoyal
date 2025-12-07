@@ -36,7 +36,9 @@ namespace _ClashRoyal.Scripts.Maps
         {
             var position = unit.transform.position;
 
-            var towers = _towers.Where(t => t.TeamType != unit.TeamType).ToList();
+            var towers = _towers.Where(t => t && t.TeamType != unit.TeamType).ToList();
+            if (towers.Count == 0) return null;
+            
             var nearestTower = towers[0];
             var distance = Vector3.Distance(position, nearestTower.transform.position);
 

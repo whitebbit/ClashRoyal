@@ -20,7 +20,7 @@ namespace _ClashRoyal.Scripts.Units.Base.FSM
         
 #if UNITY_EDITOR
 
-        public virtual void OnDrawGizmos()
+        public virtual void OnDrawGizmos(Unit unit)
         {
             
         }

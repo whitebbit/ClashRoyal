@@ -8,9 +8,14 @@ namespace _ClashRoyal.Scripts.Units.Base.Scriptables
     [CreateAssetMenu(fileName = "_Parameters", menuName = "Configs/Unit/Parameters", order = 0)]
     public class UnitParameters : ScriptableObject
     {
-        [SerializeField] private float bodyRadius;
+        [Header("Physical Properties")]
+        [Tooltip("Радиус коллайдера/тела юнита (используется для физических расчетов)")]
+        [SerializeField, Min(0.1f)] private float bodyRadius = 0.5f;
         
+        [Header("Unit Configurations")]
+        [Tooltip("Массив всех конфигураций юнита (Health, Attack, Movement и т.д.)")]
         [SerializeField] private UnitConfig[] configs = Array.Empty<UnitConfig>();
+        
         public float BodyRadius => bodyRadius;
 
         private readonly Dictionary<Type, UnitConfig> _cache = new();

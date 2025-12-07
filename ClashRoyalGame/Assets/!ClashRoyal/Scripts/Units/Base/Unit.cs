@@ -12,7 +12,12 @@ namespace _ClashRoyal.Scripts.Units.Base
     {
         #region FIELDS SERIALIZED
 
+        [Header("Unit Identity")]
+        [Tooltip("Команда, к которой принадлежит юнит")]
         [SerializeField] private TeamType teamType;
+        
+        [Header("Unit Configuration")]
+        [Tooltip("Параметры и конфигурации юнита (здоровье, атака, движение и т.д.)")]
         [SerializeField] private UnitParameters parameters;
 
         #endregion
@@ -22,6 +27,7 @@ namespace _ClashRoyal.Scripts.Units.Base
         public TeamType TeamType => teamType;
         public UnitParameters Parameters => parameters;
         public UnitHealth Health { get; private set; }
+        public abstract UnitType UnitType { get; }
 
         protected abstract UnitFsm UnitFsm { get; }
 
@@ -78,9 +84,7 @@ namespace _ClashRoyal.Scripts.Units.Base
 
         private void OnDrawGizmos()
         {
-            return;
-            UnitFsm?.Initialize(this);
-            UnitFsm?.OnDrawGizmos();
+            UnitFsm?.OnDrawGizmos(this);
         }
     }
 }

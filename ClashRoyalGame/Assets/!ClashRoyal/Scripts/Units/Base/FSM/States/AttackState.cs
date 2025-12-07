@@ -8,6 +8,10 @@ namespace _ClashRoyal.Scripts.Units.Base.FSM.States
     [CreateAssetMenu(fileName = "_AttackState", menuName = "FSM/States/Attack", order = 0)]
     public class AttackState : State
     {
+        [Header("Attack Strategy")]
+        [SerializeField] private AttackStrategy attackStrategy;
+        
+        public AttackStrategy AttackStrategy => attackStrategy;
         public Func<Unit> TargetProvider { private get; set; }
 
         private float _attackTimer;
@@ -36,7 +40,15 @@ namespace _ClashRoyal.Scripts.Units.Base.FSM.States
 
         private void PerformAttack(Unit target)
         {
-            target.ApplyDamage(Unit.Parameters.GetConfig<UnitAttackConfig>().Damage);
+            var attackConfig = Unit.Parameters.GetConfig<UnitAttackConfig>();
+            
+            if (attackStrategy == null)
+            {
+                target.ApplyDamage(attackConfig.Damage);
+                return;
+            }
+            
+            attackStrategy.Execute(Unit, target, attackConfig.Damage);
         }
     }
 }

@@ -1,11 +1,8 @@
-﻿using System;
-using _ClashRoyal.Scripts.Units.Base;
-using _ClashRoyal.Scripts.Units.Base.Enums;
-using TMPro;
+﻿using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace _Game.Scripts.UI.Units
+namespace _ClashRoyal.Scripts.Units.Base
 {
     public class UIHealthBar : MonoBehaviour
     {
@@ -14,6 +11,8 @@ namespace _Game.Scripts.UI.Units
         [SerializeField] private Unit unit;
         [SerializeField] private Slider slider;
         [SerializeField] private TMP_Text counterText;
+
+        [SerializeField] private bool showOnDamage;
 
         #endregion
 
@@ -26,6 +25,7 @@ namespace _Game.Scripts.UI.Units
         private void Start()
         {
             UpdateHealth(unit.Health.HealthPoints, unit.Health.MaxHealth);
+            if (showOnDamage) UpdateActiveState(false);
             unit.Health.OnHealthChanged += UpdateHealth;
         }
 
@@ -46,6 +46,15 @@ namespace _Game.Scripts.UI.Units
 
             if (counterText)
                 counterText.text = $"{currentHealth}";
+
+            if (showOnDamage) UpdateActiveState(true);
+        }
+
+        public void UpdateActiveState(bool state)
+        {
+            if (counterText) counterText.gameObject.SetActive(state);
+
+            if (slider) slider.gameObject.SetActive(state);
         }
 
         #endregion
